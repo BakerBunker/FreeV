@@ -23,8 +23,9 @@ Audio samples can be found [here](https://redmist328.github.io/APNet2_demo/).<br
 python train.py 
 ```
 Checkpoints and copy of the configuration file are saved in the `cp_APNet` directory by default.<br>
-You can modify the training and inference configuration by modifying the parameters in the [config.json](https://github.com/redmist328/APNet2/config.json) .
+You can modify the training and inference configuration by modifying the parameters in the [config.json](https://github.com/redmist328/APNet2/config.json).
 ## Inference
+You can download pretrained model on LJSpeech dataset at [here](http://home.ustc.edu.cn/~redmist/APNet2/).
 ```
 python inference.py
 ```
