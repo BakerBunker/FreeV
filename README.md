@@ -16,7 +16,7 @@ The synthesized speech quality of APNet2 is also comparable to that of HiFi-GAN 
 Audio samples can be found [here](https://redmist328.github.io/APNet2_demo/).<br>
 
 ## Requirements
-
+Follow this [txt](https://github.com/redmist328/APNet2/requirements.txt).
 
 ## Training
 ```
