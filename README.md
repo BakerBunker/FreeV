@@ -1,6 +1,6 @@
 # APNet2: High-quality and High-efficiency Neural Vocoder with Direct Prediction of Amplitude and Phase Spectra
 ### Hui-Peng Du, Ye-Xin Lu, Yang Ai, Zhen-Hua Ling
-In our [paper](http://home.ustc.edu.cn/~redmist/course/), we proposed APNet2: High-quality and High-efficiency Neural Vocoder with Direct Prediction of Amplitude and Phase Spectra.<br>
+In our [paper](https://arxiv.org/pdf/2311.11545.pdf), we proposed APNet2: High-quality and High-efficiency Neural Vocoder with Direct Prediction of Amplitude and Phase Spectra.<br>
 We provide our implementation as open source in this repository.
 
 **Abstract:** 
