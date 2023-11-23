@@ -42,5 +42,10 @@ and [Vocos](https://github.com/charactr-platform/vocos) to implement this.
 
 ## Citation
 ```
-soon
+@article{du2023apnet2,
+  title={APNet2: High-quality and High-efficiency Neural Vocoder with Direct Prediction of Amplitude and Phase Spectra},
+  author={Du, Hui-Peng and Lu, Ye-Xin and Ai, Yang and Ling, Zhen-Hua},
+  journal={arXiv preprint arXiv:2311.11545},
+  year={2023}
+}
 ```
