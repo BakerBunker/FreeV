@@ -1,3 +1,9 @@
+<style>
+.markdown-body>*:first-child {
+    display: none;
+}
+</style>
+
 # FreeV: Free Lunch For Vocoders Through Pseudo Inversed Mel Filter
 
 ## Anonymous submission to InterSpeech 2024
