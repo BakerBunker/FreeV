@@ -14,6 +14,7 @@
  * [Abstract](#abstract)
  * [Reconstruction](#reconstruction)
  * [TTS](#tts)
+ * [References](#references)
 
 ### Abstract
 
@@ -29,7 +30,7 @@ Vocoders reconstruct speech waveforms from acoustic features and play a pivotal 
 <tr>
 <th>Ground Truth</th>
 <th>FreeV (<font color='red'>Proposed</font>)</th>
-<th>APNet</th>
+<th>APNet2</th>
 <th>HiFiGAN</th>
 <th>HiFiGAN <font color='red'>w/pinv</font></th>
 <th>ISTFTNet</th>
@@ -125,7 +126,7 @@ Synthesized from opensource [FastSpeech](https://github.com/ming024/FastSpeech2)
 <table>
 <tr>
 <th>FreeV (<font color='red'>Proposed</font>)</th>
-<th>APNet</th>
+<th>APNet2</th>
 <th>HiFiGAN</th>
 <th>HiFiGAN <font color='red'>w/pinv</font></th>
 <th>ISTFTNet</th>
@@ -169,3 +170,10 @@ Synthesized from opensource [FastSpeech](https://github.com/ming024/FastSpeech2)
 <td><audio controls preload="none"><source src="audios/tts/vocos/LJ006-0123.wav" type="audio/mp3">Your browser does not support the audio element.</audio></td>
 </tr>
 </table>
+
+### References
+1. APNet2 [Paper](https://arxiv.org/pdf/2311.11545.pdf) [Code(Official)](https://github.com/redmist328/APNet2)
+2. HiFiGAN [Paper](https://arxiv.org/abs/2010.05646) [Code(Official)](https://github.com/jik876/hifi-gan)
+3. iSTFTNet [Paper](https://arxiv.org/pdf/2203.02395.pdf) [Code(Reproduced)](https://github.com/rishikksh20/iSTFTNet-pytorch)
+4. Vocos [Paper](https://arxiv.org/abs/2306.00814) [Code(Official)](https://github.com/gemelo-ai/vocos)
+5. FastSpeech2 [Paper](https://arxiv.org/abs/2006.04558v1) [Code(Reproduced)](https://github.com/ming024/FastSpeech2)
