@@ -4,7 +4,7 @@ Official Repository of the paper: [FreeV: Free Lunch For Vocoders Through Pseudo
 
 **Audio samples** at: [https://bakerbunker.github.io/FreeV/](https://bakerbunker.github.io/FreeV/)
 
-**Model checkpoints** and **tensorboard training logs** available at: [release page](https://github.com/BakerBunker/FreeV/release)
+**Model checkpoints** and **tensorboard training logs** available at: [huggingface](https://huggingface.co/Bakerbunker/FreeV_Model_Logs)
 
 ## Requirements
 ```bash
@@ -35,7 +35,7 @@ Checkpoints and copy of the configuration file are saved in the `checkpoint_path
 Modify the training and inference configuration by modifying the parameters in the `config.json`.
 
 ## Inference
-Download pretrained model on LJSpeech dataset at [release page](https://github.com/BakerBunker/FreeV/release).
+Download pretrained model on LJSpeech dataset at [huggingface](https://huggingface.co/Bakerbunker/FreeV_Model_Logs).
 
 Modify the `inference.py` to inference.
 
