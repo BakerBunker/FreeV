@@ -14,7 +14,7 @@ import torch.multiprocessing as mp
 from torch.distributed import init_process_group
 from torch.nn.parallel import DistributedDataParallel
 from dataset import Dataset, mel_spectrogram, amp_pha_specturm, get_dataset_filelist
-from models import (
+from models_pghi import (
     Generator,
     MultiPeriodDiscriminator,
     feature_loss,
@@ -104,6 +104,8 @@ def train(h):
         n_cache_reuse=0,
         shuffle=True,
         device=device,
+        inv_mel=True,
+        use_pghi=True,
     )
 
     train_loader = DataLoader(
@@ -131,6 +133,8 @@ def train(h):
         False,
         n_cache_reuse=0,
         device=device,
+        inv_mel=True,
+        use_pghi=True,
     )
     validation_loader = DataLoader(
         validset,
@@ -158,7 +162,9 @@ def train(h):
                 lambda x: x.to(device, non_blocking=True), batch
             )
             y = y.unsqueeze(1)
-            logamp_g, pha_g, rea_g, imag_g, y_g = generator(x)
+            logamp_g, pha_g, rea_g, imag_g, y_g = generator(
+                x, inv_mel=inv_mel, pghi=pghid
+            )
             y_g_mel = mel_spectrogram(
                 y_g.squeeze(1),
                 h.n_fft,
@@ -295,7 +301,10 @@ def train(h):
                         x, logamp, pha, rea, imag, y, meloss, inv_mel, pghid = map(
                             lambda x: x.to(device, non_blocking=True), batch
                         )
-                        logamp_g, pha_g, rea_g, imag_g, y_g = generator(x.to(device))
+                        logamp_g, pha_g, rea_g, imag_g, y_g = generator(
+                            x, inv_mel=inv_mel, pghi=pghid
+                        )
+                        x = x.cpu()
                         y_g_mel = mel_spectrogram(
                             y_g.squeeze(1),
                             h.n_fft,
@@ -331,7 +340,7 @@ def train(h):
                                 )
                                 sw.add_figure(
                                     "gt/y_spec_{}".format(j),
-                                    plot_spectrogram(x[0].cpu()),
+                                    plot_spectrogram(x[0]),
                                     steps,
                                 )
 
@@ -395,14 +404,14 @@ def train(h):
 def main():
     print("Initializing Training Process..")
 
-    config_file = "config.json"
+    config_file = "config_pghi.json"
 
     with open(config_file) as f:
         data = f.read()
 
     json_config = json.loads(data)
     h = AttrDict(json_config)
-    build_env(config_file, "config.json", h.checkpoint_path)
+    build_env(config_file, "config_pghi.json", h.checkpoint_path)
 
     torch.manual_seed(h.seed)
     if torch.cuda.is_available():

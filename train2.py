@@ -14,7 +14,7 @@ import torch.multiprocessing as mp
 from torch.distributed import init_process_group
 from torch.nn.parallel import DistributedDataParallel
 from dataset import Dataset, mel_spectrogram, amp_pha_specturm, get_dataset_filelist
-from models import (
+from models2 import (
     Generator,
     MultiPeriodDiscriminator,
     feature_loss,
@@ -103,6 +103,7 @@ def train(h):
         h.meloss,
         n_cache_reuse=0,
         shuffle=True,
+        inv_mel=True,
         device=device,
     )
 
@@ -131,6 +132,7 @@ def train(h):
         False,
         n_cache_reuse=0,
         device=device,
+        inv_mel=True,
     )
     validation_loader = DataLoader(
         validset,
@@ -395,14 +397,14 @@ def train(h):
 def main():
     print("Initializing Training Process..")
 
-    config_file = "config.json"
+    config_file = "config2.json"
 
     with open(config_file) as f:
         data = f.read()
 
     json_config = json.loads(data)
     h = AttrDict(json_config)
-    build_env(config_file, "config.json", h.checkpoint_path)
+    build_env(config_file, "config2.json", h.checkpoint_path)
 
     torch.manual_seed(h.seed)
     if torch.cuda.is_available():

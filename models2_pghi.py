@@ -73,28 +73,33 @@ class Generator(torch.nn.Module):
         self.ASP_num_kernels = len(h.ASP_resblock_kernel_sizes)
         self.PSP_num_kernels = len(h.PSP_resblock_kernel_sizes)
 
-        self.ASP_input_conv = Conv1d(
-            h.num_mels,
-            h.ASP_channel,
-            h.ASP_input_conv_kernel_size,
-            1,
-            padding=get_padding(h.ASP_input_conv_kernel_size, 1),
-        )
+        # self.ASP_input_conv = Conv1d(
+        #     h.num_mels,
+        #     h.ASP_channel,
+        #     h.ASP_input_conv_kernel_size,
+        #     1,
+        #     padding=get_padding(h.ASP_input_conv_kernel_size, 1),
+        # )
         self.PSP_input_conv = Conv1d(
-            h.num_mels,
+            2 * self.h.ASP_channel,
             h.PSP_channel,
-            h.PSP_input_conv_kernel_size,
             1,
-            padding=get_padding(h.PSP_input_conv_kernel_size, 1),
         )
+        # self.PSP_input_conv2 = Conv1d(
+        #     h.PSP_channel,
+        #     h.PSP_channel,
+        #     h.PSP_input_conv_kernel_size,
+        #     1,
+        #     padding=get_padding(h.PSP_input_conv_kernel_size, 1),
+        # )
 
-        self.ASP_output_conv = Conv1d(
-            h.ASP_channel,
-            h.n_fft // 2 + 1,
-            h.ASP_output_conv_kernel_size,
-            1,
-            padding=get_padding(h.ASP_output_conv_kernel_size, 1),
-        )
+        # self.ASP_output_conv = Conv1d(
+        #     h.ASP_channel,
+        #     h.n_fft // 2 + 1,
+        #     h.ASP_output_conv_kernel_size,
+        #     1,
+        #     padding=get_padding(h.ASP_output_conv_kernel_size, 1),
+        # )
         self.PSP_output_R_conv = Conv1d(
             512,
             h.n_fft // 2 + 1,
@@ -131,12 +136,13 @@ class Generator(torch.nn.Module):
         self.convnext2 = nn.ModuleList(
             [
                 ConvNeXtBlock(
-                    dim=self.dim,
+                    dim=self.h.ASP_channel,
                     intermediate_dim=self.intermediate_dim,
                     layer_scale_init_value=layer_scale_init_value,
                     adanorm_num_embeddings=self.adanorm_num_embeddings,
                 )
-                for _ in range(self.num_layers)
+                # for _ in range(self.num_layers)
+                for _ in range(1)
             ]
         )
         self.final_layer_norm = nn.LayerNorm(self.dim, eps=1e-6)
@@ -148,19 +154,35 @@ class Generator(torch.nn.Module):
             nn.init.trunc_normal_(m.weight, std=0.02)
             nn.init.constant_(m.bias, 0)
 
-    def forward(self, mel):
-        logamp = self.ASP_input_conv(mel)
-        logamp = self.norm2(logamp.transpose(1, 2))
-        logamp = logamp.transpose(1, 2)
+    def forward(self, mel, inv_mel=None, pghi=None):
+        if inv_mel is None:
+            inv_amp = (
+                inverse_mel(
+                    mel,
+                    self.h.n_fft,
+                    self.h.num_mels,
+                    self.h.sampling_rate,
+                    self.h.hop_size,
+                    self.h.win_size,
+                    self.h.fmin,
+                    self.h.fmax,
+                )
+                .abs()
+                .clamp_min(1e-5)
+            )
+        else:
+            inv_amp = inv_mel
+        logamp = inv_amp.log()
+        # logamp = self.ASP_input_conv(logamp)
         for conv_block in self.convnext2:
             logamp = conv_block(logamp, cond_embedding_id=None)
-        logamp = self.final_layer_norm2(logamp.transpose(1, 2))
-        logamp = logamp.transpose(1, 2)
-        logamp = self.ASP_output_conv(logamp)
+        # logamp = self.final_layer_norm2(logamp.transpose(1, 2))
+        # logamp = logamp.transpose(1, 2)
+        # logamp = self.ASP_output_conv(logamp)
 
-        pha = self.PSP_input_conv(mel)
-        pha = self.norm(pha.transpose(1, 2))
-        pha = pha.transpose(1, 2)
+        pha = self.PSP_input_conv(torch.cat((inv_amp, pghi), dim=1))
+        # pha = self.norm(pha.transpose(1, 2))
+        # pha = pha.transpose(1, 2)
         for conv_block in self.convnext:
             pha = conv_block(pha, cond_embedding_id=None)
         pha = self.final_layer_norm(pha.transpose(1, 2))

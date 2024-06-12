@@ -1,0 +1,4 @@
+cp_*
+*.pyc
+\.vscode
+test.ipynb
