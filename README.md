@@ -1,51 +1,59 @@
-# APNet2: High-quality and High-efficiency Neural Vocoder with Direct Prediction of Amplitude and Phase Spectra
-### Hui-Peng Du, Ye-Xin Lu, Yang Ai, Zhen-Hua Ling
-In our [paper](https://arxiv.org/pdf/2311.11545.pdf), we proposed APNet2: High-quality and High-efficiency Neural Vocoder with Direct Prediction of Amplitude and Phase Spectra.<br>
-We provide our implementation as open source in this repository.
+# FreeV: Free Lunch For Vocoders Through Pseudo Inversed Mel Filter
 
-**Abstract:** 
-In our previous work, we proposed a neural vocoder called APNet, which directly predicts speech amplitude and phase spectra with a 5 ms frame shift in parallel from the input acoustic features, and then reconstructs the 16 kHz speech waveform using inverse short-time Fourier transform (ISTFT). 
-APNet demonstrates the capability to generate synthesized speech of comparable quality to the HiFi-GAN vocoder but with a considerably improved inference speed.
-However, the performance of the APNet vocoder is constrained by the waveform sampling rate and spectral frame shift, limiting its practicality for high-quality speech synthesis.
-Therefore, this paper proposes an improved iteration of APNet, named APNet2. 
-The proposed APNet2 vocoder adopts ConvNeXt v2 as the backbone network for amplitude and phase predictions, expecting to enhance the modeling capability.
-Additionally, we introduce a multi-resolution discriminator (MRD) into the GAN-based losses and optimize the form of certain losses.
-At a common configuration with a waveform sampling rate of 22.05 kHz and spectral frame shift of 256 points (i.e., approximately 11.6ms), our proposed APNet2 vocoder outperformed the original APNet and Vocos vocoders in terms of synthesized speech quality. 
-The synthesized speech quality of APNet2 is also comparable to that of HiFi-GAN and iSTFTNet, while offering a significantly faster inference speed.
+Official Repository of the paper: [FreeV: Free Lunch For Vocoders Through Pseudo Inversed Mel Filter]()
 
-Audio samples can be found [here](https://redmist328.github.io/APNet2_demo/).<br>
+**Audio samples** at: [https://bakerbunker.github.io/FreeV/](https://bakerbunker.github.io/FreeV/)
+
+**Model checkpoints** and **tensorboard training logs** available at: [release page](https://github.com/BakerBunker/FreeV/release)
 
 ## Requirements
-Follow this [txt](https://github.com/redmist328/APNet2/blob/main/requirements.txt).
+```bash
+git clone https://github.com/BakerBunker/FreeV.git
+cd FreeV
+pip install -r requirements.txt
+```
+
+## Configs
+
+I tried using [PGHI(Phase Gradient Heap Integration)](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7890450) as phase spec initialization. But sadly it didn't work.
+
+Here is the config and train script of different settings, `diff <train-script> <train-script>` to see the differences.
+
+| Model | Config File | Train Script | 
+| --- | ---| ---|
+|APNet2|config.json|train.py|
+|APNet2 w/pghi|config_pghi.json|train_pghi.py|
+|FreeV | config2.json|train2.py|
+|FreeV w/pghi| config2_pghi.json|train2_pghi.py|
 
 ## Training
 ```
-python train.py 
+python <train-script>
 ```
-Checkpoints and copy of the configuration file are saved in the `cp_APNet` directory by default.<br>
-You can modify the training and inference configuration by modifying the parameters in the [config.json](https://github.com/redmist328/APNet2/blob/main/config.json).
+Checkpoints and copy of the configuration file are saved in the `checkpoint_path` directory in `config.json`.
+
+Modify the training and inference configuration by modifying the parameters in the `config.json`.
+
 ## Inference
-You can download pretrained model on LJSpeech dataset at [here](http://home.ustc.edu.cn/~redmist/APNet2/).
-```
-python inference.py
-```
+Download pretrained model on LJSpeech dataset at [release page](https://github.com/BakerBunker/FreeV/release).
+
+Modify the `inference.py` to inference.
+
 
 ## Model Structure
-![model](./figure/2.png)
+![model](./figure/overall.png)
 
 ## Comparison with other models
-![comparison](./figure/3.png)
+![compare](./figure/compare.png)
+
+![compare_table](./figure/compare_table.png)
 
 ## Acknowledgements
-We referred to [HiFiGAN](https://github.com/jik876/hifi-gan), [NSPP](https://github.com/YangAi520/NSPP), [APNet](https://github.com/YangAi520/APNet) 
-and [Vocos](https://github.com/charactr-platform/vocos) to implement this.
+We referred to [APNet2](https://github.com/redmist328/APNet2) to implement this.
+
+See the code changes at commit: 95e1e5cb3fe2b0360a30f39167e3e3ffd8097980
 
 ## Citation
 ```
-@article{du2023apnet2,
-  title={APNet2: High-quality and High-efficiency Neural Vocoder with Direct Prediction of Amplitude and Phase Spectra},
-  author={Du, Hui-Peng and Lu, Ye-Xin and Ai, Yang and Ling, Zhen-Hua},
-  journal={arXiv preprint arXiv:2311.11545},
-  year={2023}
-}
+
 ```
