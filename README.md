@@ -51,7 +51,7 @@ Modify the `inference.py` to inference.
 ## Acknowledgements
 We referred to [APNet2](https://github.com/redmist328/APNet2) to implement this.
 
-See the code changes at commit: 95e1e5cb3fe2b0360a30f39167e3e3ffd8097980
+See the code changes at this [commit](https://github.com/BakerBunker/FreeV/commit/95e1e5cb3fe2b0360a30f39167e3e3ffd8097980)
 
 ## Citation
 ```
