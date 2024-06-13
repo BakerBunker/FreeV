@@ -1,5 +1,10 @@
 # FreeV: Free Lunch For Vocoders Through Pseudo Inversed Mel Filter
 
+One liner code:
+```python
+model_input = mel_spec @ mel_filter.pinverse().abs().clamp_min(1e-5)
+```
+
 Official Repository of the paper: [FreeV: Free Lunch For Vocoders Through Pseudo Inversed Mel Filter]()
 
 **Audio samples** at: [https://bakerbunker.github.io/FreeV/](https://bakerbunker.github.io/FreeV/)
