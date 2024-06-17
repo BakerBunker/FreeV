@@ -2,7 +2,7 @@
 
 One liner code:
 ```python
-model_input = mel_spec @ mel_filter.pinverse().abs().clamp_min(1e-5)
+model_input = (mel_spec @ mel_filter.pinverse()).abs().clamp_min(1e-5)
 ```
 
 Official Repository of the paper: [FreeV: Free Lunch For Vocoders Through Pseudo Inversed Mel Filter]()
