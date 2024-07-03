@@ -5,7 +5,7 @@ One liner code:
 model_input = (mel_spec @ mel_filter.pinverse()).abs().clamp_min(1e-5)
 ```
 
-Official Repository of the paper: [FreeV: Free Lunch For Vocoders Through Pseudo Inversed Mel Filter]()
+Official Repository of the paper: [FreeV: Free Lunch For Vocoders Through Pseudo Inversed Mel Filter](https://arxiv.org/abs/2406.08196)
 
 **Audio samples** at: [https://bakerbunker.github.io/FreeV/](https://bakerbunker.github.io/FreeV/)
 
@@ -59,6 +59,14 @@ We referred to [APNet2](https://github.com/redmist328/APNet2) to implement this.
 See the code changes at this [commit](https://github.com/BakerBunker/FreeV/commit/95e1e5cb3fe2b0360a30f39167e3e3ffd8097980)
 
 ## Citation
-```
-
+```bibtex
+@misc{lv2024freevfreelunchvocoders,
+      title={FreeV: Free Lunch For Vocoders Through Pseudo Inversed Mel Filter}, 
+      author={Yuanjun Lv and Hai Li and Ying Yan and Junhui Liu and Danming Xie and Lei Xie},
+      year={2024},
+      eprint={2406.08196},
+      archivePrefix={arXiv},
+      primaryClass={cs.SD},
+      url={https://arxiv.org/abs/2406.08196}, 
+}
 ```
