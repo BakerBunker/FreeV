@@ -6,7 +6,10 @@
 
 # FreeV: Free Lunch For Vocoders Through Pseudo Inversed Mel Filter
 
-## Anonymous submission to InterSpeech 2024
+Author: Yuanjun Lv
+
+[Paper](https://arxiv.org/abs/2406.08196)
+[Code](https://github.com/BakerBunker/FreeV)
 
 ------
 
