@@ -242,7 +242,7 @@ class Dataset(torch.utils.data.Dataset):
             self.hop_size,
             self.win_size,
             self.fmin,
-            self.meloss,
+            self.fmax,
             center=True,
             in_dataset=True,
         )
