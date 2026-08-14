@@ -96,31 +96,32 @@ class Generator(torch.nn.Module):
             padding=get_padding(h.ASP_output_conv_kernel_size, 1),
         )
         self.PSP_output_R_conv = Conv1d(
-            512,
+            h.PSP_channel,
             h.n_fft // 2 + 1,
             h.PSP_output_R_conv_kernel_size,
             1,
             padding=get_padding(h.PSP_output_R_conv_kernel_size, 1),
         )
         self.PSP_output_I_conv = Conv1d(
-            512,
+            h.PSP_channel,
             h.n_fft // 2 + 1,
             h.PSP_output_I_conv_kernel_size,
             1,
             padding=get_padding(h.PSP_output_I_conv_kernel_size, 1),
         )
 
-        self.dim = 512
+        self.dim_psp = h.PSP_channel
+        self.dim_asp = h.ASP_channel
         self.num_layers = 8
         self.adanorm_num_embeddings = None
         self.intermediate_dim = 1536
-        self.norm = nn.LayerNorm(self.dim, eps=1e-6)
-        self.norm2 = nn.LayerNorm(self.dim, eps=1e-6)
+        self.norm = nn.LayerNorm(self.dim_psp, eps=1e-6)
+        self.norm2 = nn.LayerNorm(self.dim_asp, eps=1e-6)
         layer_scale_init_value = 1 / self.num_layers
         self.convnext = nn.ModuleList(
             [
                 ConvNeXtBlock(
-                    dim=self.dim,
+                    dim=self.dim_psp,
                     intermediate_dim=self.intermediate_dim,
                     layer_scale_init_value=layer_scale_init_value,
                     adanorm_num_embeddings=self.adanorm_num_embeddings,
@@ -131,7 +132,7 @@ class Generator(torch.nn.Module):
         self.convnext2 = nn.ModuleList(
             [
                 ConvNeXtBlock(
-                    dim=self.dim,
+                    dim=self.dim_asp,
                     intermediate_dim=self.intermediate_dim,
                     layer_scale_init_value=layer_scale_init_value,
                     adanorm_num_embeddings=self.adanorm_num_embeddings,
@@ -139,8 +140,8 @@ class Generator(torch.nn.Module):
                 for _ in range(self.num_layers)
             ]
         )
-        self.final_layer_norm = nn.LayerNorm(self.dim, eps=1e-6)
-        self.final_layer_norm2 = nn.LayerNorm(self.dim, eps=1e-6)
+        self.final_layer_norm = nn.LayerNorm(self.dim_psp, eps=1e-6)
+        self.final_layer_norm2 = nn.LayerNorm(self.dim_asp, eps=1e-6)
         self.apply(self._init_weights)
 
     def _init_weights(self, m):
